@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { authDto } from './auth.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from './get-user.decorator';
+import { Roles } from './roles.decorator';
+import { RolesGuard } from './role.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -14,8 +16,11 @@ export class AuthController {
         Logger.log(req.user)
         return 'guards'
     }
-
+    
     @Post('/signup')
+    @UseGuards(AuthGuard())
+    @UseGuards(RolesGuard)
+    @Roles('ADMIN')
     @UsePipes(ValidationPipe)
     signUp(@Body() authDto : authDto){
         return this.authService.Signup(authDto)

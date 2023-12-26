@@ -1,4 +1,4 @@
-import { Prop, Schema } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 import { eventStatus } from "./event.types";
 
@@ -12,6 +12,9 @@ export class Event extends Document {
     date : Date
     @Prop()
     location : string
-    @Prop()
+    @Prop({default : eventStatus.OPEN})
     status : eventStatus
+    @Prop()
+    poster : string
 }
+export const EventSchema = SchemaFactory.createForClass(Event);
